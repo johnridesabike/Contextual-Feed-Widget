@@ -27,7 +27,7 @@ class Contextual_Feed_Widget extends WP_Widget {
 		);
 		parent::__construct( 
             'feed_widget', 
-            esc_html__( 'Feed Widget', 'context-feed-widget' ), 
+            esc_html__( 'Contextual Feed Widget', 'context-feed-widget' ), 
             $widget_ops );
 	}
 
@@ -43,12 +43,10 @@ class Contextual_Feed_Widget extends WP_Widget {
 		if ( ! empty( $instance['title'] ) ) {
 			echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title'];
 		}
-		
-        $main_feed = get_feed_link();
         ?>
         <p>
-            <a href="<?php echo $main_feed; ?>">
-                <i class="fas fa-rss"></i>
+            <a href="<?php echo get_feed_link(); ?>">
+                <span class="fas fa-rss"></span>
                 <abbr title="Really Simple Syndication">RSS</abbr>
                 Feed
             </a>
@@ -57,17 +55,17 @@ class Contextual_Feed_Widget extends WP_Widget {
         <?php
         $sub_feed = array();
         if ( is_category() ) {
-            $tax = get_the_category()[0];
+            $tax = get_queried_object();
             $sub_feed = array( 
                 'name'          => $tax->name . ' Category',
-                'description'   => 'A feed for just the &ldquo;' . $tax->name . '&rdquo; category.',
+                'description'   => 'A feed just for the &ldquo;' . $tax->name . '&rdquo; category.',
                 'link'          => get_term_feed_link($tax->term_id, 'category')
             );
         } else if ( is_tag() ) {
-            $tax = get_the_tags(false)[0];
+            $tax = get_queried_object();
             $sub_feed = array( 
                 'name'          => $tax->name . ' Tag',
-                'description'   => 'A feed for just the &ldquo;' . $tax->name . '&rdquo; tag.',
+                'description'   => 'A feed just for the &ldquo;' . $tax->name . '&rdquo; tag.',
                 'link'          => get_term_feed_link($tax->term_id, 'post_tag')
             );
         } else if ( is_single() ) {
@@ -81,7 +79,7 @@ class Contextual_Feed_Widget extends WP_Widget {
         if ( $sub_feed ): ?>
             <p>
                 <a href="<?php echo $sub_feed['link']; ?>">
-                    <i class="fas fa-rss"></i>
+                    <span class="fas fa-rss"></span>
                     <?php echo $sub_feed['name']; ?>
                     <abbr title="Really Simple Syndication">RSS</abbr>
                 </a>
