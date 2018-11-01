@@ -36,6 +36,16 @@ class Contextual_Feed_Widget extends WP_Widget {
             esc_html__( 'Contextual Feed Widget', 'context-feed-widget' ), 
             $widget_ops );
 	}
+    
+
+	/**
+	 * Outputs the css classes for feed icons. Defaults to Dashicons. Additional classes can be specified.
+	 *
+	 * @param string $classes
+	 */
+    private function the_icon_class( $classes = '' ) {
+        echo 'class="dashicons dashicons-rss ' . $classes . '"';
+    }
 
 	/**
 	 * Outputs the content of the widget
@@ -55,7 +65,7 @@ class Contextual_Feed_Widget extends WP_Widget {
         ?>
         <p class="feed-link">
             <a href="<?php echo get_feed_link(); ?>">
-                <span class="fas fa-rss"></span>
+                <span <?php $this->the_icon_class();?>></span>
                 <?php esc_html_e( 'Feed for all entries', 'context-feed-widget' ); ?>
             </a>
         </p>
@@ -83,7 +93,7 @@ class Contextual_Feed_Widget extends WP_Widget {
         if ( $sub_feed ): ?>
             <p class="feed-link">
                 <a href="<?php echo $sub_feed['link']; ?>">
-                    <span class="fas fa-rss"></span>
+                    <span <?php $this->the_icon_class();?>></span>
                     <?php echo $sub_feed['name']; ?>
                 </a>
             </p>
@@ -92,7 +102,7 @@ class Contextual_Feed_Widget extends WP_Widget {
         ?>
         <p class="feed-link">
             <a href="<?php bloginfo('comments_rss2_url') ?>">
-                <span class="fas fa-rss"></span>
+                <span <?php $this->the_icon_class();?>></span>
                 <?php esc_html_e( 'Feed for all comments', 'context-feed-widget' ); ?>
             </a>
         </p>
