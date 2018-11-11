@@ -21,6 +21,17 @@ if ( ! defined( 'WPINC' ) )
 	die;
 
 class Contextual_Feed_Widget extends WP_Widget {
+    
+    /**
+     * Default instance.
+     *
+     * @var array
+     */
+    protected $default_instance = array(
+        'title' => '',
+        'text_before' => '',
+        'icon_code' => '<span class="dashicons dashicons-rss"></span>'
+    );
 
 	/**
 	 * Sets up the widgets name etc
@@ -36,16 +47,6 @@ class Contextual_Feed_Widget extends WP_Widget {
             esc_html__( 'Contextual Feed Widget', 'context-feed-widget' ), 
             $widget_ops );
 	}
-    
-
-	/**
-	 * Outputs the css classes for feed icons. Defaults to Dashicons. Additional classes can be specified.
-	 *
-	 * @param string $classes
-	 */
-    private function the_icon_class( $classes = '' ) {
-        echo 'class="dashicons dashicons-rss ' . $classes . '"';
-    }
 
 	/**
 	 * Outputs the content of the widget
@@ -55,9 +56,8 @@ class Contextual_Feed_Widget extends WP_Widget {
 	 */
 	public function widget( $args, $instance ) {
 		// outputs the content of the widget
+		$instance = array_merge( $this->default_instance, $instance );
         echo $args['before_widget'];
-        foreach( array('title', 'text_before') as $key )
-            $instance[$key] = ! empty( $instance[$key] ) ? $instance[$key] : '';
 		if ( ! empty( $instance['title'] ) )
 			echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title'];
         if ( ! empty( $instance['text_before'] ) )
@@ -65,7 +65,7 @@ class Contextual_Feed_Widget extends WP_Widget {
         ?>
         <p class="feed-link">
             <a href="<?php echo get_feed_link(); ?>">
-                <span <?php $this->the_icon_class();?>></span>
+                <?php echo $instance['icon_code']; ?>
                 <?php esc_html_e( 'Feed for all entries', 'context-feed-widget' ); ?>
             </a>
         </p>
@@ -74,26 +74,25 @@ class Contextual_Feed_Widget extends WP_Widget {
         if ( is_category() ) {
             $tax = get_queried_object();
             $sub_feed = array( 
-                'name'  => sprintf( esc_html__('Feed for only &ldquo;%s&rdquo; entries', 'context-feed-widget' ), 
+                'name'  => sprintf( esc_html__('Feed for &ldquo;%s&rdquo; entries', 'context-feed-widget' ), 
                                     $tax->name ),
                 'link'  => get_term_feed_link($tax->term_id, 'category') );
-        } else if ( is_tag() ) {
+        } elseif ( is_tag() ) {
             $tax = get_queried_object();
             $sub_feed = array( 
-                'name'  => sprintf( esc_html__('Feed for only entries tagged &ldquo;%s&rdquo;', 'context-feed-widget' ), 
+                'name'  => sprintf( esc_html__('Feed for entries tagged &ldquo;%s&rdquo;', 'context-feed-widget' ), 
                                     $tax->name ),
                 'link'  => get_term_feed_link($tax->term_id, 'post_tag') );
-        } else if ( is_single() ) {
+        } elseif ( is_single() ) {
             $sub_feed = array( 
                 'name'  => sprintf( esc_html__( "Feed for comments on &ldquo;%s&rdquo;" , 'context-feed-widget' ),
                                     get_the_title() ),
-                'link'  => get_post_comments_feed_link()
-            );
+                'link'  => get_post_comments_feed_link() );
         }
         if ( $sub_feed ): ?>
             <p class="feed-link">
                 <a href="<?php echo $sub_feed['link']; ?>">
-                    <span <?php $this->the_icon_class();?>></span>
+                    <?php echo $instance['icon_code']; ?>
                     <?php echo $sub_feed['name']; ?>
                 </a>
             </p>
@@ -102,8 +101,8 @@ class Contextual_Feed_Widget extends WP_Widget {
         ?>
         <p class="feed-link">
             <a href="<?php bloginfo('comments_rss2_url') ?>">
-                <span <?php $this->the_icon_class();?>></span>
-                <?php esc_html_e( 'Feed for all comments', 'context-feed-widget' ); ?>
+                <?php echo $instance['icon_code']; ?>
+                <?php esc_html_e( 'Feed for all site comments', 'context-feed-widget' ); ?>
             </a>
         </p>
         <?php
@@ -117,8 +116,7 @@ class Contextual_Feed_Widget extends WP_Widget {
 	 */
 	public function form( $instance ) {
 		// outputs the options form on admin
-        foreach( array('title', 'text_before') as $key )
-            $instance[$key] = ! empty( $instance[$key] ) ? $instance[$key] : '';
+        $instance = wp_parse_args( (array) $instance, $this->default_instance );
         ?>
         <p>
             <label for="<?php esc_attr_e( $this->get_field_id( 'title' ) ); ?>">
@@ -133,10 +131,19 @@ class Contextual_Feed_Widget extends WP_Widget {
             <label for="<?php esc_attr_e( $this->get_field_id( 'text_before' ) ); ?>">
                 <?php esc_html_e('Text to include before the links:', 'context-feed-widget'); ?>
             </label> 
-            <textarea class="widefat" rows="8" cols="20" 
+            <textarea class="widefat" rows="4" cols="20" 
                       id="<?php esc_attr_e( $this->get_field_id( 'text_before' ) ); ?>" 
                       name="<?php esc_attr_e( $this->get_field_name( 'text_before' ) ); ?>" 
                       ><?php echo esc_textarea( $instance['text_before'] ); ?></textarea>
+        </p>
+        <p>
+            <label for="<?php esc_attr_e( $this->get_field_id( 'icon_code' ) ); ?>">
+                <?php esc_html_e('HTML code to include before each link (e.g. for icons):', 'context-feed-widget'); ?>
+            </label> 
+            <textarea class="widefat" rows="4" cols="20" 
+                      id="<?php esc_attr_e( $this->get_field_id( 'icon_code' ) ); ?>" 
+                      name="<?php esc_attr_e( $this->get_field_name( 'icon_code' ) ); ?>" 
+                      ><?php echo esc_textarea( $instance['icon_code'] ); ?></textarea>
         </p>
         <?php
 	}
@@ -151,19 +158,19 @@ class Contextual_Feed_Widget extends WP_Widget {
 	 */
 	public function update( $new_instance, $old_instance ) {
 		// processes widget options to be saved
-		$new_instance = wp_parse_args( $new_instance, array(
-			'title' => '',
-			'text_before' => '',
-		) );
-        $new_instance['title'] = sanitize_text_field( $new_instance['title'] );
-		if ( current_user_can( 'unfiltered_html' ) )
-			$new_instance['text_before'] = $new_instance['text_before'];
-		else
-			$new_instance['text_before'] = wp_kses_post( $new_instance['text_before'] );
-		return $new_instance;
+		$instance = array_merge( $this->default_instance, $old_instance );
+        $instance['title'] = sanitize_text_field( $new_instance['title'] );
+		if ( current_user_can( 'unfiltered_html' ) ) {
+			$instance['text_before'] = $new_instance['text_before'];
+			$instance['icon_code'] = $new_instance['icon_code'];
+        } else {
+			$instance['text_before'] = wp_kses_post( $new_instance['text_before'] );
+			$instance['icon_code'] = wp_kses_post( $new_instance['icon_code'] );
+        }
+		return $instance;
 	}
 }
 
-add_action( 'widgets_init', function(){
+add_action( 'widgets_init', function() {
 	register_widget( 'Contextual_Feed_Widget' );
-});
+} );
