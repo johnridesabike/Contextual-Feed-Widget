@@ -1,8 +1,8 @@
 <?php
 /**
  * @package Contextual_Feed_Widget
- * @version 0.1
- * @link https://johnridesa.bike/category/web-development/
+ * @version 1.0
+ * @link https://johnridesa.bike/tag/contextual-feed-widget/
  */
 /*
 Plugin Name: Contextual Feed Widget
