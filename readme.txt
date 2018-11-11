@@ -5,8 +5,8 @@ Plugin URI: https://johnridesa.bike/tag/contextual-feed-widget/
 Stable tag: 1.0
 Tested up to: 5.0
 Requires at least: 4.6
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+License: GPL-3.0+
+License URI: https://www.gnu.org/licenses/gpl-3.0.txt
 
 This widget displays different feed links depending on which page is displayed.
 

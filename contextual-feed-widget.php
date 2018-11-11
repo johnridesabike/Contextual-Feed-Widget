@@ -6,10 +6,10 @@
  */
 /*
 Plugin Name: Contextual Feed Widget
-Plugin URI: https://johnridesa.bike/category/web-development/
-Description: This widget displays appropriate RSS feed links based on what page the user is viewing.
+Plugin URI: https://johnridesa.bike/tag/contextual-feed-widget/
+Description: This widget displays different feed links depending on which page is displayed.
 Author: John Jackson
-Version: 0.1
+Version: 1.0
 Author URI: https://johnridesa.bike/
 Text Domain: context-feed-widget
 License: GPL-3.0+
