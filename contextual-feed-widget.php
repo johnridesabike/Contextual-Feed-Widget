@@ -63,12 +63,13 @@ class Contextual_Feed_Widget extends WP_Widget {
         if ( ! empty( $instance['text_before'] ) )
             echo '<div class="text-before">' . apply_filters( 'widget_text', $instance['text_before'] ) . '</div>';
         ?>
-        <p class="feed-link">
+        <ul>
+        <li class="feed-link">
             <a href="<?php echo get_feed_link(); ?>">
                 <?php echo $instance['icon_code']; ?>
                 <?php esc_html_e( 'Feed for all entries', 'context-feed-widget' ); ?>
             </a>
-        </p>
+        </li>
         <?php
         $sub_feed = array();
         if ( is_category() ) {
@@ -90,21 +91,22 @@ class Contextual_Feed_Widget extends WP_Widget {
                 'link'  => get_post_comments_feed_link() );
         }
         if ( $sub_feed ): ?>
-            <p class="feed-link">
+            <li class="feed-link">
                 <a href="<?php echo $sub_feed['link']; ?>">
                     <?php echo $instance['icon_code']; ?>
                     <?php echo $sub_feed['name']; ?>
                 </a>
-            </p>
+            </li>
         <?php
         endif;
         ?>
-        <p class="feed-link">
-            <a href="<?php bloginfo('comments_rss2_url') ?>">
-                <?php echo $instance['icon_code']; ?>
-                <?php esc_html_e( 'Feed for all site comments', 'context-feed-widget' ); ?>
-            </a>
-        </p>
+            <li class="feed-link">
+                <a href="<?php bloginfo('comments_rss2_url') ?>">
+                    <?php echo $instance['icon_code']; ?>
+                    <?php esc_html_e( 'Feed for all site comments', 'context-feed-widget' ); ?>
+                </a>
+            </li>
+        </ul>
         <?php
 		echo $args['after_widget'];
 	}
