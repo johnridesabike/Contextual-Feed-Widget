@@ -9,7 +9,7 @@ Requires PHP: 5.2.4
 License: GPL-3.0+
 License URI: https://www.gnu.org/licenses/gpl-3.0.txt
 
-This widget displays different feed links depending on which page is displayed.
+This widget displays different feed links depending on which page it's on.
 
 == Description ==
 
