@@ -1,14 +1,15 @@
 === Contextual Feed Widget ===
-Contributors: John Jackson
+Contributors: johnridesabike
 Author URI: https://johnridesa.bike/
 Plugin URI: https://johnridesa.bike/tag/contextual-feed-widget/
 Stable tag: 1.0
 Tested up to: 5.0
 Requires at least: 4.6
+Requires PHP: 5.2.4
 License: GPL-3.0+
 License URI: https://www.gnu.org/licenses/gpl-3.0.txt
 
-This widget displays different feed links depending on which page is displayed.
+This widget displays different feed links depending on which page it's on.
 
 == Description ==
 
@@ -22,13 +23,15 @@ Need a new feature or found a bug? Get involved! You can submit an issue or pull
 
 == Installation ==
 
-Search for "Contextual Feed Widget" on the plugin panel in the WordPress dashboard. It can be easily installed from there.
+1. Upload the plugin files to the `/wp-content/plugins/plugin-name` directory, or install the plugin through the WordPress plugins screen directly.
+2. Activate the plugin through the 'Plugins' screen in WordPress.
+3. Add the widget through the 'Appearance->Widgets' screen or through the Customizer.
 
-The manual method always works too:
+== Screenshots ==
 
-1. Upload the plugin to the `/wp-content/plugins/` directory.
-2. Activate the plugin through the 'Plugins' menu in WordPress.
-3. Add the widget through the admin page or the customizer.
+1. The default feed links shown on all pages.
+2. The feed links shown on a category titled "Blog."
+3. The feed links shown on a single post.
 
 == Changelog ==
 
