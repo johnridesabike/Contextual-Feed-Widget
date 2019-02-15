@@ -2,8 +2,8 @@
 Contributors: johnridesabike
 Author URI: https://johnridesa.bike/
 Plugin URI: https://johnridesa.bike/tag/contextual-feed-widget/
-Stable tag: 1.0
-Tested up to: 5.0
+Stable tag: 1.0.1
+Tested up to: 5.1
 Requires at least: 4.6
 Requires PHP: 5.2.4
 License: GPL-3.0+
